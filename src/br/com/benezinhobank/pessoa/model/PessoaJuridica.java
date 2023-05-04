@@ -1,12 +1,15 @@
 package br.com.benezinhobank.pessoa.model;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 public class PessoaJuridica extends  Pessoa{
 
     private String CNPJ;
 
     private String razaoSocial;
+
+    Collection<Pessoa> socios;
 
 
     public PessoaJuridica() {
