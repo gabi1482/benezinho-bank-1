@@ -2,7 +2,7 @@ package br.com.benezinhobank.model;
 
 import br.com.benezinhobank.pessoa.model.Pessoa;
 
-public class ContaPoupanca extends Conta{
+public class ContaPoupanca extends Conta {
 
     private int aniversario;
 
@@ -31,3 +31,4 @@ public class ContaPoupanca extends Conta{
                 "} " + super.toString();
     }
 }
+
