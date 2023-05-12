@@ -30,6 +30,8 @@ public class Main {
     }
 
 
+
+
     public static ContaCorrente novaContaCorrente(Agencia agencia, Pessoa titular, double limite){
         ContaCorrente cc = new ContaCorrente();
         cc.setAgencia(agencia);
@@ -49,53 +51,43 @@ public class Main {
     }
 
 
+
+    public static PessoaJuridica novaPessoaJuridica(String nomeFantasia, String razaoSocial, String CNPJ, LocalDate fundacao){
+        PessoaJuridica pj = new PessoaJuridica();
+        pj.setCNPJ(CNPJ);
+        pj.setNascimento(fundacao);
+        pj.setNome(nomeFantasia);
+        pj.setRazaoSocial(razaoSocial);
+        return pj;
+    }
+
+
+
     public static void main(String[] args) {
 
         Banco benezinho = new Banco("Benezinho Bank");
         Agencia osasco = novaAgencia("Osasco", benezinho);
-
-
         PessoaFisica mae = novaPessoa("Francisca", LocalDate.of(1977, 3, 8),"213246546-50", null);
         PessoaFisica bene = novaPessoa("Benefrancis", LocalDate.of(1977, 3, 8),"213246546-50", mae);
         ContaCorrente cc = novaContaCorrente(osasco,bene,5_000_000);
         ContaPoupanca cp = novaContaPoupanca(osasco, mae, MonthDay.now());
+        PessoaJuridica holding = novaPessoaJuridica("Bene Holding", "Bene Holding SA", "09484743838", LocalDate.of(1998, 10, 8));
+        PessoaFisica lucca = novaPessoa("Lucca", LocalDate.of(2004, 8, 19), "095867665858", mae);
+        ContaCorrente ccH = novaContaCorrente(osasco, holding, 500);
 
 
-        PessoaJuridica holding = new PessoaJuridica();
-        holding.setCNPJ("1231312/0001-09");
-        holding.setNascimento(LocalDate.of(1988, 10, 5));
-        holding.setNome("Benezinho Holding");
-        holding.setRazaoSocial("Benezinho Holding SA");
-
-        PessoaFisica lucca = new PessoaFisica();
-        lucca.setCPF("132132132132");
-        lucca.setNascimento(LocalDate.of(2004, 8, 19));
-        lucca.setNome("Lucca Freitas");
-        lucca.setMae(mae);
-
-        Pessoa[] socios = new Pessoa[3];
-        socios[0] = bene;
-        socios[1] = mae;
-        socios[2] = lucca;
-
-        holding.setSocios(socios);
-
-
-        ContaCorrente ccH = new ContaCorrente();
-        ccH.setNumero("3-7");
-        ccH.setLimite(500);
-        ccH.setSaldo(1000);
-        ccH.setTitular(holding);
-        ccH.setAgencia(osasco);
-
-//        System.out.println(ccH);
+//        Pessoa[] socios = new Pessoa[3];
+//        socios[0] = bene;
+//        socios[1] = mae;
+//        socios[2] = lucca;
 //
-//        System.out.println(bene);
+//        holding.setSocios(socios);
+
+        holding.addSocio(bene).addSocio(mae).addSocio(lucca); // o retorne this, da pra fazer isso, ele retorna o objeto e ai eu so chamo os objetos
 
 
-        for (int i = 0; i < socios.length; i++) {
-            System.out.println(socios[i]);
-        }
+
+
 
         int continua = 0;
         System.out.println("SALDO ANTERIOR: " + ccH.getSaldo());
@@ -115,7 +107,7 @@ public class Main {
             }
 
             String texto = """
-                    Deseja realizar umnovo saque?
+                    Deseja realizar um novo saque?
                     [1] SIM
                     [2] NÃO
                     """;

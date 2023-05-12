@@ -2,6 +2,9 @@ package br.com.benezinhobank.pessoa.model;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Vector;
 
 public class PessoaJuridica extends Pessoa {
 
@@ -10,18 +13,18 @@ public class PessoaJuridica extends Pessoa {
     private String razaoSocial;
 
 
-    private Pessoa[] socios;
+    private Collection<Pessoa> socios = new Vector<>();
 
 
 
     public PessoaJuridica() {
     }
 
-    public PessoaJuridica(String nome, LocalDate nascimento, String CNPJ, String razaoSocial, Pessoa[] socios) {
+    public PessoaJuridica(String nome, LocalDate nascimento, String CNPJ, String razaoSocial, Collection<Pessoa> socios) {
         super(nome, nascimento);
         this.setCNPJ(CNPJ);
         this.setRazaoSocial(razaoSocial);
-        this.setSocios(socios);
+        this.socios = socios;
     }
 
     public String getCNPJ() {
@@ -41,20 +44,27 @@ public class PessoaJuridica extends Pessoa {
     }
 
 
-    public Pessoa[] getSocios() {
-        return socios;
+    public Collection<Pessoa> getSocios() {    //isso serve para que a pessoa tenha acesso a lista de spcios, mas nao consiga edita-la
+        return Collections.unmodifiableCollection(this.socios);
+    }
+    public PessoaJuridica addSocio(Pessoa socios){
+        this.socios.add(socios);
+        return this;
     }
 
-    public void setSocios(Pessoa[] socios) {
-        this.socios = socios;
+    public PessoaJuridica removeSocios(Pessoa socios){
+        this.socios.remove(socios);
+        return this;
     }
+
+
 
     @Override
     public String toString() {
         return "PessoaJuridica{" +
                 "CNPJ='" + CNPJ + '\'' +
                 ", razaoSocial='" + razaoSocial + '\'' +
-                ", socios=" + Arrays.toString(socios) +
+                ", socios=" + socios +
                 "} " + super.toString();
     }
 }
